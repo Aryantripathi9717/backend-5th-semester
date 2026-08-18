@@ -1,0 +1,1 @@
+this one is text tst file i going to read this file using readFileSync
