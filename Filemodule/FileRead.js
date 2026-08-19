@@ -4,9 +4,8 @@ FilePath = "./text.txt"
 // const result = fs.readFileSync(FilePath,'utf-8')
 // console.log(result);
 
-fs.readFile(FilePath,(err,data)=>{
+fs.readFile(FilePath,'utf-8',(err,data)=>{
     if(err) throw err
-    console.log(data);
-    
+    console.log(data);  
 })
 

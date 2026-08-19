@@ -1,1 +1,0 @@
-demo of sync write of file 
