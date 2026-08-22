@@ -1,1 +1,74 @@
 this one is text tst file i going to read this file using readFileSync
+import java.util.*;
+
+static class Solution {
+    List<String> result = new ArrayList<>();
+    int[] arr;
+
+    List<String> solve(int n, int[] nums) {
+        arr = nums;
+        Arrays.sort(arr);
+
+        gen(0, new ArrayList<>());
+
+        return result;
+    }
+
+    void gen(int idx, List<Integer> cur) {
+
+        String s = "";
+
+        for (int i = 0; i < cur.size(); i++) {
+            if (i > 0) {
+                s += " ";
+            }
+            s += cur.get(i);
+        }
+
+        result.add(s);
+
+        for (int i = idx; i < arr.length; i++) {
+            cur.add(arr[i]);
+
+            gen(i + 1, cur);
+
+            cur.remove(cur.size() - 1);
+        }
+    }
+}import java.util.*;
+
+static class Solution {
+    List<String> result = new ArrayList<>();
+    int[] arr;
+
+    List<String> solve(int n, int[] nums) {
+        arr = nums;
+        Arrays.sort(arr);
+
+        gen(0, new ArrayList<>());
+
+        return result;
+    }
+
+    void gen(int idx, List<Integer> cur) {
+
+        String s = "";
+
+        for (int i = 0; i < cur.size(); i++) {
+            if (i > 0) {
+                s += " ";
+            }
+            s += cur.get(i);
+        }
+
+        result.add(s);
+
+        for (int i = idx; i < arr.length; i++) {
+            cur.add(arr[i]);
+
+            gen(i + 1, cur);
+
+            cur.remove(cur.size() - 1);
+        }
+    }
+}
