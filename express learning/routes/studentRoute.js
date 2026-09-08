@@ -1,7 +1,13 @@
 import express from "express"
 import {Router} from 'express'
-
+import checkRoles from "../middlewares/roleMiddlewares.js"
 const studentRouter = express.Router()
+
+studentRouter.use((req,res,next)=>{
+    console.log("You are at student page");
+    next()
+    
+})
 
 
 let students = [
@@ -43,11 +49,12 @@ let students = [
     },
 ]
 
-studentRouter.get("/all",(req,res)=>{
+
+studentRouter.get("/all",checkRoles('teacher','student','admin'),(req,res)=>{
     res.json(students)
 })
 
-studentRouter.get("/:id",(req,res)=>{
+studentRouter.get("/:id",checkRoles('teacher','student','admin'),(req,res)=>{
     console.log(req.params.id);
     const id = parseInt(req.params.id)
     let student = students.find(student => student.id===id)
@@ -59,7 +66,7 @@ studentRouter.get("/:id",(req,res)=>{
     res.json(student)
 })
 
-studentRouter.post("/create",(req,res)=>{
+studentRouter.post("/create",checkRoles('teacher','admin'),(req,res)=>{
     const newStudent = {
         id : students.length + 1,
         name : req.body.name,
@@ -74,7 +81,7 @@ studentRouter.post("/create",(req,res)=>{
     })
 })
 
-studentRouter.delete("/delete/:id",(req,res)=>{
+studentRouter.delete("/delete/:id",checkRoles('admin'),(req,res)=>{
     let id = parseInt(req.params.id);
 
     const index = students.findIndex(student =>  student.id === id);
@@ -100,7 +107,7 @@ studentRouter.delete("/delete/:id",(req,res)=>{
     })
 })
 
-studentRouter.put("/put/:id",(req,res)=>{
+studentRouter.put("/put/:id",checkRoles('teacher','admin'),(req,res)=>{
     let {name, age, course} = req.body;
 
     let id = parseInt(req.params.id);
@@ -121,7 +128,7 @@ studentRouter.put("/put/:id",(req,res)=>{
 
 })
 
-studentRouter.patch("/patch/:id",(req,res)=>{
+studentRouter.patch("/patch/:id",checkRoles('teacher','admin'),(req,res)=>{
 
 
     let {name,age,course} = req.body;
@@ -151,7 +158,7 @@ studentRouter.patch("/patch/:id",(req,res)=>{
 })
 
 
-studentRouter.get("/search",(req,res)=>{
+studentRouter.get("/search",checkRoles('teacher','student','admin'),(req,res)=>{
     const {course, age} = req.query;
 
     const student = students.filter(s=> s.course.toLowerCase()=== course.toLowerCase() && s.age === parseInt(age));
@@ -165,13 +172,5 @@ studentRouter.get("/search",(req,res)=>{
     res.send(student)
 
 })
-
-
-
-
-
-
-
-
 
 export default studentRouter;

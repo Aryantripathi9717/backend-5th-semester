@@ -12,16 +12,6 @@ app.get("/",(req,res)=>{
 app.use("/student", studentRouter)
 app.use("/teacher", teacherRouter)
 
-                                                                  
-
-app.use((req,res,next)=>{
-    console.log('Middleware 1');
-    next()
-})
-app.use((req,res,next)=>{
-    console.log('Middleware 2');
-})
-
 
 const port = 4000;
 app.listen(port,()=>{
