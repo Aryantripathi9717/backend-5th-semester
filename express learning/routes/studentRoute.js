@@ -2,6 +2,7 @@ import express from "express"
 import {Router} from 'express'
 import checkRoles from "../middlewares/roleMiddlewares.js"
 const studentRouter = express.Router()
+import {Student} from "../Models/studentModel.js"
 
 studentRouter.use((req,res,next)=>{
     console.log("You are at student page");
@@ -51,6 +52,7 @@ let students = [
 
 
 studentRouter.get("/all",checkRoles('teacher','student','admin'),(req,res)=>{
+    students = Student.find()
     res.json(students)
 })
 
