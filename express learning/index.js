@@ -3,6 +3,7 @@ import studentRouter from "./routes/studentRoute.js";
 import teacherRouter from "./routes/teacherRoute.js";
 import dotenv from "dotenv"
 import mongoose from "mongoose";
+import userRouter from "./routes/userRoute.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.get("/",(req,res)=>{
 
 app.use("/student", studentRouter)
 app.use("/teacher", teacherRouter)
+app.use("/user",userRouter);
 
 
 const port = process.env.PORT;

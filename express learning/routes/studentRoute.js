@@ -6,8 +6,7 @@ import {Student} from "../Models/studentModel.js"
 
 studentRouter.use((req,res,next)=>{
     console.log("You are at student page");
-    next()
-    
+    next() 
 })
 
 
