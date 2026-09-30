@@ -1,6 +1,6 @@
 const fs = require("fs")
 const FilePath = "./text.txt"
-const content = "Thanke"
+const content = "Thanks"
 
 fs.writeFileSync(FilePath,content) // it will create file if it does not exist at given path
 console.log("Bye");
