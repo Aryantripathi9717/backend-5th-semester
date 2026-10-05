@@ -4,6 +4,7 @@ import teacherRouter from "./routes/teacherRoute.js";
 import dotenv from "dotenv"
 import mongoose from "mongoose";
 import userRouter from "./routes/userRoute.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ mongoose.connect(process.env.MONGODB_URL)
 });
    
 app.use(express.json())
+app.use(cookieParser())
 app.get("/",(req,res)=>{
     res.send("This is home page")
 })
