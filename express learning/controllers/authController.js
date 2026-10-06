@@ -19,7 +19,7 @@ export const signup = async (req,res)=>{
             return res.status(401).json({message : "UserName already Exists"})
         }
 
-        const hashedPassword = await bcrypt.hash(password,10);
+        const hashedPassword = await bcrypt.hash(password,13);
 
         const newUser = await User.create({
             name : name,
@@ -68,7 +68,7 @@ export const login  = async (req,res)=>{
             httpOnly : true,
             secure : false,
             sameSite : "lax",
-            maxAge : 24*60*60
+            maxAge : 24*60*60*1000
         })
 
         return res.status(200).json({
