@@ -1,6 +1,6 @@
 import User from "../Models/userModel.js";
 import bcrypt from "bcrypt"
-import { generateToken } from "../utils/jwt.js";
+import { generateAccessToken, generateRefreshToken } from "../utils/jwt.js";
 import cookieParser from 'cookie-parser';
 
 export const signup = async (req,res)=>{
@@ -28,13 +28,13 @@ export const signup = async (req,res)=>{
             password : hashedPassword
         })
         
-        const token = generateToken(newUser);
+        const token = generateAccessToken(newUser);
 
         res.cookie("token",token,{
             httpOnly : true,
             secure : false,
             sameSite : "lax",
-            maxAge : 24*60*60*1000 //millisecond
+            maxAge : 60*60*1000 //millisecond
         })
 
         return res.status(200).json({message : "User successfully created"});
@@ -62,13 +62,18 @@ export const login  = async (req,res)=>{
             return res.status(400).json({message : "Password doesn't match"});
         }
 
-        const token = generateToken(userExist);
+        const token = generateAccessToken(userExist);
+        const refreshToken = generateRefreshToken(userExist);
+        const hashedRefreshToken = await bcrypt.hash(refreshToken,12);
+        
+        userExist.refreshToken = hashedRefreshToken;
+        await userExist.save();
 
         res.cookie("token",token,{
             httpOnly : true,
             secure : false,
             sameSite : "lax",
-            maxAge : 24*60*60*1000
+            maxAge : 60*60*1000 // millisecond
         })
 
         return res.status(200).json({
@@ -76,7 +81,7 @@ export const login  = async (req,res)=>{
             user : {
                 name : userExist.name,
                 userName : userExist.userName,
-                email : userExist.email
+                email : userExist.email,
             }
 
         })
@@ -86,3 +91,19 @@ export const login  = async (req,res)=>{
     }
 }
 
+
+export const logout = async (req,res)=>{
+    try {
+        let token = req.cookies.token;
+        if(!token){
+            return res.status(200).json({message : "Token not found"});
+        }
+        await res.clearCookie("token");
+        return res.status(201).json({message : "Logout successfully"});
+    } catch (error) {
+        return res.status(400).json({
+            message : "Logout Error",
+            error : error
+        })
+    }
+}

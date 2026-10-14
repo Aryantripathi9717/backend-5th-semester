@@ -9,5 +9,9 @@
   },
   "keywords": [],
   "author": "Aryan Tripathi",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "create": "^0.5.5",
+    "vite": "^8.3.4"
+  }
 }

@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import mongoose from "mongoose";
 import userRouter from "./routes/authRoute.js";
 import cookieParser from "cookie-parser";
+import { authMiddlewares } from "./middlewares/auth.middlewares.js";
 
 dotenv.config();
 
@@ -27,7 +28,7 @@ app.get("/",(req,res)=>{
 })
 
 
-app.use("/student", studentRouter)
+app.use("/student",authMiddlewares, studentRouter)
 app.use("/teacher", teacherRouter)
 app.use("/user",userRouter);
 
